@@ -2,32 +2,158 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-color:       #2b282d;
+  --background-color:       #f5f4f7;
+
+  --gradient-overlay: linear-gradient(
+    8deg,
+    rgba(148, 89, 16, 0.8)  6%,
+    rgba(21, 101, 52, 0.93) 20%,
+    rgba(64, 3, 63, 0.8)    45%,
+    rgba(11, 41, 90, 0.6)   80%,
+    rgba(148, 89, 16, 0.8)  94%);
+
+  --gradient-overlay-secondary: linear-gradient(
+    rgba(246, 177, 91, 0.2),
+    rgba(78, 15, 77, 0.8),
+    rgba(246, 177, 91, 0.2));
+
+  --button-background-color: var(--background-color);
+
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --foreground-color:       #37323b;
+    --background-color:       #e8e4ef;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg)
+  }
+  50% {
+    transform: rotate(180deg) scale(1.5)
+  }
+  to {
+    transform: rotate(360deg)
+  }
+}
+
+@keyframes scroll-background {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 -400%;
   }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color:            var(--foreground-color);
+  background-color: var(--background-color);
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+body:after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  z-index: 2000;
+
+  background-image: var(--gradient-overlay);
+  background-size:  100% 400%;
+  animation:        scroll-background 40s linear infinite reverse;
+}
+
+h1.heading {
+  font-size:        12em;
+  text-transform:   uppercase;
+  padding:          0;
+  font-weight:      300;
+  line-height:      0.5em;
+  letter-spacing:   -0.089em;
+  color:          #777;
+  animation:        rotate 1s cubic-bezier(0.895, 0.03, 0.685, 0.22) infinite;
+}
+
+.subheading {
+  font-size:        3em;
+  font-weight:      700;
+  line-height:      1em;
+  letter-spacing:   -0.08em;
+  color:          #777;
+}
+
+section.page-content {
+  min-height:       40vh;
+  background:     white;
+}
+
+footer.page-footer,
+header.page-header {
+  height:           30vh;
+  display:          flex;
+  flex-flow:        column nowrap;
+  align-items:      center;
+  justify-content:  center;
+  background-color: var(--background-color);
+}
+
+
+
+
+.absolute-middle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.notch-up-2 {
+  margin-top: -2em;
+}
+
+
+
+/*
+.color-primary {
+  color:            var(--color-primary);
+  background-color: var(--button-background-color)
+}
+
+.color-primary:hover {
+  color:            var(--color-primary-hover);
+  background-color: var(--button-background-color-hover)
+}
+
+.color-primary:focus-visible {
+  color:            var(--color-primary-active);
+  background-color: var(--button-background-color-active)
+} */
+
+
+
+.button,
+.tag {
+  transition: all 320ms;
+  transform: scale(1);
+  position: relative;
+  box-shadow: 0 12px 0px 0px rgba(0, 0, 0, 0.0);
+}
+
+.button:hover,
+.tag:hover {
+  transition-duration: 150ms;
+  transform: scale(2) translateY(-15%);
+  z-index: 10;
+  box-shadow: 0 12px 6px 8px rgba(0, 0, 0, 0.15);
 }
